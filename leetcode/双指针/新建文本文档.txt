@@ -1,0 +1,80 @@
+https://leetcode.cn/problems/4sum/
+
+
+// ----------------------------------------V1.0---------------------------------
+
+class Solution {
+public:
+    vector<vector<int>> fourSum(vector<int>& nums, int target) {
+        vector<vector<int>> res;
+        int len = nums.size();
+        if(len < 4) return res;
+        sort(nums.begin(), nums.end());
+
+        cout<< INT_MAX<< INT_MIN;
+
+        unordered_map<int, int> rem;
+        for(auto num : nums)  rem[num]++;
+        int a, b, c;
+        int d;
+        for(int i =0; i<len; ++i){
+            if(nums[i] > target && target >=0)
+                continue;
+
+            if(nums[len-1] < target && target <=0)
+                continue;
+
+            a = nums[i];
+            if(rem[a] > 1) --rem[a];
+            else rem.erase(a);
+            if(i >0 && nums[i] ==nums[i-1] ) continue;
+
+            for(int j =i+1 ; j<len; ++j){
+                b = nums[j];
+                if(rem[b] > 1) --rem[b];
+                else rem.erase(b);
+                //cout << "debug2" <<endl;
+
+                if(j > i+1  && nums[j] == nums[j-1])  continue;
+
+                for(int k =j+1; k < len; ++k){
+                    c = nums[k];
+                    if(rem[c] >1) --rem[c];
+                    else rem.erase(c);
+                    //cout << "debug2" <<endl;
+
+                    if(k >j+1 && nums[k] == nums[k-1]) continue;
+
+
+                    if(a==1000000000 || b==1000000000 || c==1000000000) continue;
+                    if(a==-1000000000 || b==-1000000000 || c==-1000000000) continue;
+                    try{
+                        d =target -a-b-c;
+                    }
+                    catch(exception){
+                        continue;
+                    }
+                        
+                    //if(d >INT_MAX || d< INT_MIN)
+                    //continue;
+                        
+
+
+                    //cout<<a <<b<<c << d<<endl;
+                    if(rem.count((int)d)){
+                        //cout<< "count d is"<<rem.count(d)<<endl;
+                        vector<int> s = {a, b, c, int(d)};
+                        res.push_back(s);
+                    }
+                }
+                for(int k = j+1; k <len; ++k) rem[nums[k]]++;
+                
+            }
+            for(int j =i+1; j<len; ++j){
+                rem[nums[j]]++;
+            }
+        }
+        return res;
+
+    }
+};

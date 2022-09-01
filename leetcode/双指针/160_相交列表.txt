@@ -1,0 +1,132 @@
+https://leetcode.cn/problems/intersection-of-two-linked-lists/
+
+解决这个问题的关键是，通过某些⽅式，让 p1 和 p2 能够同时到达相交节点 c1。
+如果⽤两个指针 p1 和 p2 分别在两条链表上前进，我们可以让 p1 遍历完链表 A 之后开始遍历链表 B，让 p2遍历完链表 B 之后开始遍历链表 A，这样相当于「逻辑上」两条链表接在了⼀起。
+// ----------------------------------------V1.0---------------------------------
+
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        auto p = headA, end = headA;
+        while(p->next){
+            p = p->next;
+        }
+        //remember the finally node
+        end = p;
+        p->next = headB;
+        auto fast = headA->next ->next, slow = headA->next;
+        while(fast && fast ->next){
+            if(fast != slow){
+                fast = fast ->next ->next;
+                slow = slow ->next;
+            }
+            else break;
+        }//可能是死循环
+        if(fast==slow ){
+            fast = headA;
+            while(fast != slow){
+                fast= fast ->next;
+                slow = slow ->next;                
+            }
+            end ->next =nullptr;
+            return fast;
+        }
+        else{
+            end ->next =nullptr;
+            
+        }
+        return nullptr;
+
+当两个链表不相交时, 最后指向的是同样的空指针
+当两个链表相交时, 最后指向的是相交的指针, 因为无论怎么排, 相交的指针永远在最后
+即 A = a +c
+    B = b +c
+遍历顺序为
+	a  c  b  c
+	b  c  a  c 
+// ----------------------------------------V1.1---------------------------------
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        //if(headA==nullptr || headB ==nullptr ) return nullptr;
+        auto p = headA, q= headB;
+        while(p != q){
+            p = p== nullptr ? headB : p ->next;
+            q = q ==nullptr ? headA : q-> next;
+            //cout<< "p = "<< p->val<< " q = "<< q-> val << endl;
+        }
+        return q;
+
+
+
+
+//让指针指向距离末尾节点相同的地方
+//首先计算链表的长度
+//速记方法: 当链表为空时, 什么操作都不做, 因此 int 初始化为 0
+// ----------------------------------------V3.0---------------------------------
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        //if(headA==nullptr || headB ==nullptr ) return nullptr;
+        auto p = headA, q= headB;
+        int a = 0, b= 0;
+
+        while(p){
+            ++a;
+            p = p->next;
+        }
+        while(q){
+            ++b;
+            q = q->next;
+        }
+        p = headA, q =headB;
+        if(a>b){
+            int n = a-b;
+            for(int i =0;i < n; ++i){
+                p = p->next;
+            }
+        }
+        else{
+            int n = b-a;
+            for(int i = 0; i<n; ++i){
+                q = q ->next;
+            }
+        }
+        while(p != q){
+            p = p->next;
+            q = q->next;
+        }
+        return p;
+
+
+
+// ----------------------------------------V-1.0---------------------------------
+//错误原因, 无法判断空是否在哪个链表上
+
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        //if(headA==nullptr || headB ==nullptr ) return nullptr;
+        auto fast = headA, slow = headA, rem =headA;
+        ListNode *dumpb = new ListNode(-666);
+        dumpb ->next = headB;
+        int flag =0;
+
+        while(fast && fast->next){
+            cout<< "fast = " <<fast->val <<endl;
+            rem = fast;
+            fast = fast ->next -> next;
+            slow = slow ->next;
+                if(!fast )  fast = headB;
+                if(!slow) slow = headB;
+                if(!fast-> next ) fast = dumpb; 
+            if(fast == slow) break;
+            
+        }
+        if(!fast && !(fast->next) ) return nullptr;
+        fast = headA;
+        while(fast != slow){
+            fast = fast->next;
+            slow = slow ->next;
+            if(!fast) fast =headB;
+            if(!slow) slow = headB;
+        }
+        return fast;
+
+
+
+
+
+

@@ -1,0 +1,52 @@
+https://leetcode.cn/problems/reverse-linked-list/
+
+给你单链表的头节点 head ，请你反转链表，并返回反转后的链表。
+// ----------------------------------------V1.0---------------------------------
+//可以将开始情况设置为fast =head
+    ListNode* reverseList(ListNode* head) {
+        //fast 代表现在要执行操作的链表
+        //remain 代表fast下一个, 也就是将来要执行操作的链表
+        //slow 代表已经修改好的链表的头结点
+
+        auto fast = head->next;
+        auto slow = head;
+        auto remain = fast ->next;
+        slow->next = nullptr;
+
+        while(fast){
+            fast-> next = slow;
+            fast = remain;
+            if(!remain) break;
+            else {
+                remain = remain->next;
+                slow = fast;
+            }
+            
+        }
+        return slow;
+
+
+
+
+// ----------------------------------------V2.0---------------------------------
+    ListNode* reverseList(ListNode* head) {
+        //fast 代表现在要执行操作的链表
+        //remain 代表fast下一个, 也就是将来要执行操作的链表
+        //slow 代表已经修改好的链表的头结点
+
+        auto fast = head;
+        ListNode *slow = nullptr;
+        auto remain = head;
+
+        while(fast){
+            remain = fast-> next;
+            //进行反转
+            fast-> next = slow;
+            slow = fast;
+            fast = remain;
+            
+            //cout<<"--------debug=----------"<< endl;
+            //cout<< slow->val<< endl;
+
+            }
+        return slow;

@@ -1,0 +1,41 @@
+https://leetcode.cn/problems/3sum
+
+// ----------------------------------------V1.0---------------------------------
+        sort(nums.begin(), nums.end());
+        
+        //vector 中有重复元素. 
+        vector<vector <int> > res;
+        unordered_map<int, int> rem;
+        int len = nums.size();
+        if(len < 3) return res;
+        for(int num : nums) {
+            rem[num] ++;
+            //cout << rem.at(num)<<endl;
+        }
+        int a, b, c;
+        for(int i = 0; i <len ;++i){       
+            a = nums[i];
+            if(rem[a] >= 2) rem[a]--;
+            else rem.erase(a);
+            //去重
+            if(i>0 && nums[i] == nums[i-1]) continue;
+            
+            for(int j= i +1; j<len ; ++j){
+                b = nums[j];
+                if(rem[b] >= 2) rem[b]-- ; 
+                else rem.erase(b);
+                if(j-1 > i &&nums[j] == nums[j-1]) continue;
+                //  去重
+                c = -a-b;
+                if(rem.count(c)){
+                     vector<int> q ={a,b,c};
+                     res.push_back(q);
+                    
+                }
+            }
+            for(int j = i+1; j<len; ++j){
+                rem[nums[j]]++;
+            }
+          
+        }
+        return res;

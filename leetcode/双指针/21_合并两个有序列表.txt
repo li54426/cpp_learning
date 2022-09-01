@@ -1,0 +1,21 @@
+//
+//
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+        ListNode *p =list1, *q = list2, *head, *mem;
+        head = new ListNode();
+        mem = head;
+        while(p && q){
+            if(p->val < q->val){
+                mem->next = p;
+                mem = p;
+                p = p->next;
+            }
+            else {
+                mem -> next = q;
+                mem = q;
+                q = q ->next;
+            }
+        }
+        if(p) mem -> next = p;
+        if(q) mem ->next = q;
+        return head ->next;

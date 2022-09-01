@@ -1,0 +1,59 @@
+V1.0
+//操作的区别有因为p, q 为空, 所以会有相加的区别, 但是处理是一样的
+        ListNode *p = l1,*q = l2, *s, *n;
+        s = new ListNode(0);
+        n = s;
+        int mem = 0, flag = 0;
+        //n is the last one;
+        while(p != nullptr || q != nullptr){
+            n ->next = new ListNode;
+            n = n ->next;
+            if(p &&q){
+                mem = p->val + q ->val + flag;
+                p = p->next;
+                q = q ->next;
+            }
+            else if(q){
+                mem = q ->val + flag;
+                q = q->next;
+            }
+            else if(p){
+                mem = p ->val + flag ;
+                p = p->next;
+
+            }
+            flag = mem / 10;
+            n -> val = mem % 10;
+
+        }
+        if(flag){
+            n->next = new ListNode(1);
+        }
+        return s ->next;
+
+
+//V2  : 如果 q 和p 组合起来, 会有四种; 但是, 如果不组和, 就只有两种
+        ListNode *p = l1,*q = l2, *res, *n;
+        res = new ListNode(0);
+        n = res;
+        int mem = 0, flag = 0;
+        //n is the last one;
+        while(p  || q || flag ){
+            n ->next = new ListNode;
+            n = n ->next;
+            mem = flag;
+            if(q){
+                mem += q ->val ;
+                q = q->next;
+            }
+            if(p){
+                mem += p ->val ;
+                p = p->next;
+
+            }
+            flag = mem / 10;
+            n -> val = mem % 10;
+
+        }
+
+        return res ->next;

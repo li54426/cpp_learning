@@ -1,0 +1,19 @@
+https://leetcode.cn/problems/remove-linked-list-elements/
+
+
+// ----------------------------------------V1.0---------------------------------
+// 注意要做的事情是什么, 如果想要指针最后停在结尾, 判断语句就有next ,如果想访问最后一个, 那么指针要停在null, 
+
+        ListNode *dump = new ListNode(val - 1, head),  *fast = dump->next, *slow = dump;
+        if(!fast ) return dump->next;
+        while(fast  ){
+            cout << "fast = " <<fast ->val <<endl;
+            if(fast->val == val){
+                slow ->next = slow ->next ->next;
+            }
+            else
+                slow = slow->next;
+            fast = fast ->next;
+
+        }
+        return dump ->next;

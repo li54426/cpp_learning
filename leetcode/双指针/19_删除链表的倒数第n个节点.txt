@@ -1,0 +1,93 @@
+//https://leetcode.cn/problems/remove-nth-node-from-end-of-list/
+
+
+// ----------------------------------------V1.0---------------------------------
+//情况分为头结点, 尾节点 其他节点
+//判断尾节点, s->next == 0;
+ListNode* removeNthFromEnd(ListNode* head, int n) {
+        //只有一个
+        if(!head ->next ) return nullptr;
+        ListNode *s = head , *front;
+        //和尾节点相差n
+        for(int i = 0; i<n; ++i){
+            s = s ->next;
+
+        }
+        //  s == nullptr 证明要删除的是头结点
+        if(!s) return head -> next;
+        front = head;
+        //  判断尾节点, s->next == 0;
+        while(s->next){
+            s = s ->next;
+            front = front ->next;
+            //cout <<"s = " << s->val << " "<< "front = " << front ->val << endl;
+        }
+        //cout << front->val;
+        if(n ==1) {
+            front ->next = nullptr;
+        }
+        
+        else
+            front ->next = (front->next) ->next;
+        return head;
+
+
+// ------------------------------V1.1------------------------------
+//尾节点和其他节点一样的操作, 因为最后一个指针也是可以取的, 是null
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        ListNode *s = head , *front;
+        //和尾节点相差n
+        for(int i = 0; i<n; ++i){
+            s = s ->next;
+
+        }
+        //cout << s->val <<endl;
+        if(!s) return head -> next;
+        front = head;
+        while(s->next){
+            s = s ->next;
+            front = front ->next;
+            //cout <<"s = " << s->val << " "<< "front = " << front ->val << endl;
+        }
+        //cout << front->val;
+
+            front ->next = (front->next) ->next;
+        return head;
+
+
+        ListNode *dump = new ListNode(0, head);
+        ListNode *fast = dump , *front = dump;
+        //和尾节点相差n
+        for(int i = 0; i<n; ++i){
+            fast = fast ->next;
+
+        }
+
+        while(fast->next){
+            fast = fast ->next;
+            front = front ->next; 
+        }
+
+
+            front ->next = (front->next) ->next;
+        return dump -> next;
+
+
+
+// ------------------------------V2.0------------------------------
+//加入虚拟头结点, 来进行操作的统一
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        ListNode *dump = new ListNode(0, head);
+        ListNode *fast = dump , *front = dump;
+        //要删除的节点前面一个节点   和尾节点相差n
+        for(int i = 0; i<n; ++i){
+            fast = fast ->next;
+        }
+
+        while(fast->next){
+            fast = fast ->next;
+            front = front ->next; 
+        }
+
+            front ->next = (front->next) ->next;
+        return dump -> next;
